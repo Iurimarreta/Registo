@@ -164,6 +164,61 @@
             background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
         }
 
+        /* Manual Input Section */
+        .manual-input-section {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid #2d3748;
+            border-bottom: 1px solid #2d3748;
+            flex-shrink: 0;
+        }
+
+        .manual-input {
+            flex: 1;
+            background: rgba(45, 55, 72, 0.6);
+            border: 1px solid #4a5568;
+            color: #e0e0e0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .manual-input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
+        }
+
+        .manual-input::placeholder {
+            color: #718096;
+        }
+
+        .manual-register-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            font-family: inherit;
+        }
+
+        .manual-register-btn:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+        }
+
         /* Timeline Section */
         .timeline-section {
             flex: 1;
@@ -234,6 +289,10 @@
 
         .timeline-item.descarga {
             border-left-color: #a855f7;
+        }
+
+        .timeline-item.manual {
+            border-left-color: #06b6d4;
         }
 
         @keyframes slideIn {
@@ -322,6 +381,7 @@
             user-select: none;
             -webkit-user-select: none;
             text-align: center;
+            font-family: inherit;
         }
 
         .control-btn:active {
@@ -369,6 +429,7 @@
             font-size: 12px;
             cursor: pointer;
             flex: 1;
+            font-family: inherit;
         }
 
         .date-selector button {
@@ -383,6 +444,7 @@
             transition: all 0.2s;
             user-select: none;
             -webkit-user-select: none;
+            font-family: inherit;
         }
 
         .date-selector button:active {
@@ -447,6 +509,21 @@
                 font-size: 15px;
             }
 
+            .manual-input-section {
+                padding: 10px;
+                gap: 6px;
+            }
+
+            .manual-input {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .manual-register-btn {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
             .controls-section {
                 grid-template-columns: 1fr;
                 padding: 10px;
@@ -475,6 +552,10 @@
             .action-btn {
                 padding: 12px 8px;
                 font-size: 13px;
+            }
+
+            .manual-input-section {
+                padding: 8px 12px;
             }
 
             .timeline-section {
@@ -531,6 +612,12 @@
             <button class="action-btn btn-arrumar" data-task="Arrumar Paletes" data-type="arrumar">📦 ARRUMAR PALETES</button>
             <button class="action-btn btn-descarga" data-task="Descarga Camião" data-type="descarga">🚚 DESCARGA CAMIÃO</button>
             <button class="action-btn btn-fim" data-task="Fim" data-type="fim">🛑 FIM</button>
+        </div>
+
+        <!-- Manual Input Section -->
+        <div class="manual-input-section">
+            <input type="text" class="manual-input" id="manualTaskInput" placeholder="Escrever tarefa personalizada...">
+            <button class="manual-register-btn" id="manualRegisterBtn">Registar</button>
         </div>
 
         <!-- Stats Bar -->
@@ -660,6 +747,21 @@
                     btn.addEventListener('click', () => {
                         this.addTask(btn.dataset.task, btn.dataset.type);
                     });
+                });
+
+                // Manual input
+                document.getElementById('manualRegisterBtn').addEventListener('click', () => {
+                    const input = document.getElementById('manualTaskInput');
+                    if (input.value.trim()) {
+                        this.addTask(input.value.trim(), 'manual');
+                        input.value = '';
+                    }
+                });
+
+                document.getElementById('manualTaskInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        document.getElementById('manualRegisterBtn').click();
+                    }
                 });
 
                 // Date selector
@@ -897,3 +999,4 @@
     </script>
 </body>
 </html>
+
